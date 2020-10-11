@@ -8,8 +8,7 @@ class PerguntaApp extends StatefulWidget {
 }
 
 class _PerguntaAppStante extends State<PerguntaApp> {
-  //List<Map<String, Object>>
-  var _perguntas = [
+  var _perguntas = const [
     {
       "pergunta": "qual e sua cor favorita",
       "respostas": [
@@ -40,18 +39,22 @@ class _PerguntaAppStante extends State<PerguntaApp> {
   ];
 
   var _perguntaSelect = 0;
+  List<String> respondidas = [];
 
-  void _responder() {
+  void _responder(String e) {
     if (_perguntas.length - 1 <= _perguntaSelect) {
       print("nao tem mais perguntas");
+
+      respondidas.add(e);
       setState(() {
         _perguntaSelect = 0;
       });
+      print(respondidas);
     } else {
       setState(() {
         _perguntaSelect++;
       });
-      print("respondida");
+      respondidas.add(e);
     }
   }
 
@@ -62,7 +65,7 @@ class _PerguntaAppStante extends State<PerguntaApp> {
     List<Widget> widgetRepostas = respostas
         .map((e) => Resposta(
               text: e,
-              onSelecao: _responder,
+              onSelecao: () => _responder(e),
             ))
         .toList();
 
