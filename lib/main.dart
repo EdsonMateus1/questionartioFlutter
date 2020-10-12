@@ -11,9 +11,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.blue
-        ),
+      theme: ThemeData(primaryColor: Colors.blue),
       home: Scaffold(
         appBar: AppBar(
           title: Text("Perguntas"),

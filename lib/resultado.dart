@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Resultado extends StatelessWidget {
   final List<String> respondidas;
+  final void Function() onResete;
 
-  Resultado({this.respondidas});
+  Resultado({this.respondidas, this.onResete});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,19 @@ class Resultado extends StatelessWidget {
             "Parabens suas respostas",
             style: TextStyle(fontSize: 30, color: Colors.blue),
           ),
-          ...res
+          ...res,
+          RaisedButton(
+            child: Text(
+              "resetar",
+              style: TextStyle(fontSize: 30),
+            ),
+            onPressed: onResete,
+            color: Colors.blue,
+            textColor: Colors.white,
+          ),
         ],
       ),
     );
   }
 }
+

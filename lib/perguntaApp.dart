@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/questionario.dart';
 import 'package:hello_world/resultado.dart';
-import 'questao.dart';
-import 'resposta.dart';
 import 'resultado.dart';
+import 'questionario.dart';
 
 class PerguntaApp extends StatefulWidget {
   @override
@@ -69,31 +69,14 @@ class _PerguntaAppStante extends State<PerguntaApp> {
         perguntaSelecionada ? _perguntas[_perguntaSelect]["respostas"] : null;
 
     return perguntaSelecionada
-        ? Column(
-            children: [
-              Questao(
-                text: _perguntas[_perguntaSelect]["pergunta"],
-              ),
-              ...respostas
-                  .map((e) => Resposta(
-                        text: e,
-                        onSelecao: () => _responder(e),
-                      ))
-                  .toList()
-            ],
+        ? Questionario(
+            respostas: respostas,
+            pergunta: _perguntas[_perguntaSelect]["pergunta"],
+            onResponder:  _responder,
           )
-        : Column(
-            children: [
-              Resultado(
-                respondidas: _respondidas,
-              ),
-              RaisedButton(
-                child: Text("resetar"),
-                onPressed: _resetar,
-                color: Colors.blue,
-                textColor: Colors.white,
-              ),
-            ],
+        : Resultado(
+            respondidas: _respondidas,
+            onResete: _resetar,
           );
   }
 }
