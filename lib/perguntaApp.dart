@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/resultado.dart';
 import 'questao.dart';
-import 'respota.dart';
+import 'resposta.dart';
+import 'resultado.dart';
 
 class PerguntaApp extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class PerguntaApp extends StatefulWidget {
 class _PerguntaAppStante extends State<PerguntaApp> {
   var _perguntas = const [
     {
-      "pergunta": "qual e sua cor favorita",
+      "pergunta": "Qual e sua cor favorita",
       "respostas": [
         "vermelho",
         "preto",
@@ -19,7 +21,7 @@ class _PerguntaAppStante extends State<PerguntaApp> {
       ]
     },
     {
-      "pergunta": "qual e seu animal favorito",
+      "pergunta": "Qual e seu animal favorito",
       "respostas": [
         "cachoro",
         "gato",
@@ -28,7 +30,7 @@ class _PerguntaAppStante extends State<PerguntaApp> {
       ]
     },
     {
-      "pergunta": "qual seu carro favorito",
+      "pergunta": "Qual seu carro favorito",
       "respostas": [
         "ferrari",
         "uno",
@@ -39,43 +41,42 @@ class _PerguntaAppStante extends State<PerguntaApp> {
   ];
 
   var _perguntaSelect = 0;
-  List<String> respondidas = [];
+  List<String> _respondidas = [];
+
+  bool get perguntaSelecionada {
+    return _perguntaSelect < _perguntas.length;
+  }
 
   void _responder(String e) {
-    if (_perguntas.length - 1 <= _perguntaSelect) {
-      print("nao tem mais perguntas");
-
-      respondidas.add(e);
-      setState(() {
-        _perguntaSelect = 0;
-      });
-      print(respondidas);
-    } else {
+    if (perguntaSelecionada) {
       setState(() {
         _perguntaSelect++;
+        _respondidas.add(e);
       });
-      respondidas.add(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> respostas = _perguntas[_perguntaSelect]["respostas"];
+    List<String> respostas =
+        perguntaSelecionada ? _perguntas[_perguntaSelect]["respostas"] : null;
 
-    List<Widget> widgetRepostas = respostas
-        .map((e) => Resposta(
-              text: e,
-              onSelecao: () => _responder(e),
-            ))
-        .toList();
-
-    return Column(
-      children: [
-        Questao(
-          text: _perguntas[_perguntaSelect]["pergunta"],
-        ),
-        ...widgetRepostas
-      ],
-    );
+    return perguntaSelecionada
+        ? Column(
+            children: [
+              Questao(
+                text: _perguntas[_perguntaSelect]["pergunta"],
+              ),
+              ...respostas
+                  .map((e) => Resposta(
+                        text: e,
+                        onSelecao: () => _responder(e),
+                      ))
+                  .toList()
+            ],
+          )
+        : Resultado(
+            respondidas: _respondidas,
+          );
   }
 }
