@@ -56,6 +56,13 @@ class _PerguntaAppStante extends State<PerguntaApp> {
     }
   }
 
+  void _resetar() {
+    setState(() {
+      _perguntaSelect = 0;
+      _respondidas = [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     List<String> respostas =
@@ -75,8 +82,18 @@ class _PerguntaAppStante extends State<PerguntaApp> {
                   .toList()
             ],
           )
-        : Resultado(
-            respondidas: _respondidas,
+        : Column(
+            children: [
+              Resultado(
+                respondidas: _respondidas,
+              ),
+              RaisedButton(
+                child: Text("resetar"),
+                onPressed: _resetar,
+                color: Colors.blue,
+                textColor: Colors.white,
+              ),
+            ],
           );
   }
 }
